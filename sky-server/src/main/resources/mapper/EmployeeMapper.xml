@@ -21,7 +21,7 @@
                 sex = #{sex},
             </if>
             <if test="idNumber!=null and idNumber!=''">
-                idNumber = #{idNumber},
+                id_number = #{idNumber},
             </if>
             <if test="status!=null">
                 status = #{status},
@@ -51,5 +51,9 @@
                 name like concat('%',#{name},'%')
             </if>
         </where>
+    </select>
+    <select id="getById" resultType="com.sky.entity.Employee">
+        select * from employee
+        where id=#{id}
     </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.sky.controller.admin;
 
 import com.github.pagehelper.Page;
 import com.sky.constant.JwtClaimsConstant;
+import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
@@ -15,8 +16,11 @@ import com.sky.vo.EmployeeLoginVO;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,6 +109,25 @@ public class EmployeeController {
     public Result startOrStop(@PathVariable(name = "status") Integer status,@RequestParam(name = "id") Long id){
         log.info("启用禁用员工账号");
         employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
+    /**
+     * 按id查询员工
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("按id查询员工")
+    public Result<Employee> getEmployeeById(@PathVariable Long id){
+        Employee emp = employeeService.getById(id);
+        return Result.success(emp);
+    }
+
+    @PutMapping
+    @ApiOperation("修改员工信息")
+    public Result updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.updateEmp(employeeDTO);
         return Result.success();
     }
 }
